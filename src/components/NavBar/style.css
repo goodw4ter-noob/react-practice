@@ -1,0 +1,15 @@
+.cnNavbarRoot {
+    height: 60px;
+    width: 100%;
+    border-bottom: 1px solid #dbdbdb;
+    background-color: #fff;
+}
+
+.cnNavBarWrapper {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1080px;
+    margin: auto;
+}
