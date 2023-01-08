@@ -10,3 +10,13 @@ export const getPhotosAJAX = function(config) {
         ...config,
     });
 };
+
+export const mutatePhotoAJAX = function (config) {
+    config.url = `${URL}/${config.url}`;
+    
+    console.log(config.url);
+    return makeRequest({
+        method: 'PUT',
+        ...config,
+    });
+};
