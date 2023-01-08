@@ -1,0 +1,18 @@
+.cnButton {
+    padding: 5px;
+    background-color: #42A5F5;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    border-radius: 15px;
+}
+
+.cnDetailedCardSendButton:active {
+    transition: all 0.3s ease;
+    background-color: #1E88E5;
+}
+
+.cnDetailedCardSendButton:disabled {
+    transition: all 0.3s ease;
+    background-color: #BBDEFB;
+}

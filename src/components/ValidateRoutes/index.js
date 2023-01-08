@@ -16,7 +16,7 @@ const authorizedRoutes = [
 
 const ValidateRoutes = () => {
     const authorizedUser = useSelector(state => state.users.authorizedUser);
-    const isLoading = useSelector(state => state.users.isUserLoading);
+    const isLoading = useSelector(state => state.users.isAuthorizedUserLoading);
     const isAuthorized = authorizedUser ? true : false;
 
     const dispatch = useDispatch();

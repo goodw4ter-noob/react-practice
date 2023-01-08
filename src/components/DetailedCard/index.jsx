@@ -5,6 +5,7 @@ import Comment from '../Comment';
 import { useState } from 'react';
 import cn from 'classnames';
 import { nanoid } from 'nanoid';
+import Button from '../Button';
 
 const DetailedCard = ({ mutateLoading, authorizedUserId, id, userName, avatarUrl, userId, imgurl, likes, isLikedByYou, comments, className, onLikeClick, onCommentSendClick }) => {
     const [isCommentsShown, setIsCommentsShown] = useState(false);
@@ -53,7 +54,7 @@ const DetailedCard = ({ mutateLoading, authorizedUserId, id, userName, avatarUrl
             </div>
             <div className='cnDetailedCardTextAreaWrapper'>
                 <textarea value={comment} onChange={(e) => setComment(e.target.value)} className='cnDetailedCardTextArea' placeholder='Введите ваш комментарий...' />
-                <button disabled={mutateLoading} className='cnDetailedCardSendButton' onClick={handleSendCommentClick}>Отправить</button>
+                <Button disabled={mutateLoading} className='cnDetailedCardSendButton' onClick={handleSendCommentClick}>Отправить</Button>
             </div>
         </div>
     )

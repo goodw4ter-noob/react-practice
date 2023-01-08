@@ -10,3 +10,8 @@ export const getUpdatedPhoto = function (photos, photoId, data) {
     newPhotos[likedPhotoIndex] = data;
     return newPhotos;
 }
+
+
+// const arr = [1, 2, 3, 4, 5, 6, 7]
+
+// console.log(arr.splice(1, 6));

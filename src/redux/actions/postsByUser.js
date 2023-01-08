@@ -20,7 +20,7 @@ export const toggleLikeOnPostThunk = function (userId, postId, postAuthorId) {
     return async function(dispatch, getState) {
         try {
             const posts = getState().postsByUser.posts;
-
+            console.log(posts, 'posts');
             const newPosts = [...posts];
             const newPostIndex = newPosts.findIndex(post => post.id === postId);
             const postForEdit = newPosts[newPostIndex];

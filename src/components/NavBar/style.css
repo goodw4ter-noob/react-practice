@@ -5,6 +5,11 @@
     background-color: #fff;
 }
 
+.cnNavBarLink {
+    text-decoration: none;
+    color: #000;
+}
+
 .cnNavBarWrapper {
     display: flex;
     height: 100%;
