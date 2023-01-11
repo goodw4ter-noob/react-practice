@@ -6,10 +6,13 @@ import { useState } from 'react';
 import cn from 'classnames';
 import { nanoid } from 'nanoid';
 import Button from '../Button';
+import PhotoModal from '../PhotoModal';
+import TextArea from '../TextArea';
 
 const DetailedCard = ({ mutateLoading, authorizedUserId, id, userName, avatarUrl, userId, imgurl, likes, isLikedByYou, comments, className, onLikeClick, onCommentSendClick }) => {
     const [isCommentsShown, setIsCommentsShown] = useState(false);
     const [comment, setComment] = useState('');
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     const handleSendCommentClick = function () {
         if (!comment) return;
@@ -44,7 +47,7 @@ const DetailedCard = ({ mutateLoading, authorizedUserId, id, userName, avatarUrl
             </div>
             <div className='cnDetailedCardButtons'>
                 <i onClick={() => onLikeClick(authorizedUserId, id)} className={`${isLikedByYou ? 'fas' : 'far'} fa-heart cnDetailedCardLikeIcon`}></i>
-                <i className="fas fa-comment cnDetailedCardCommentIcon" />
+                <i className="fas fa-comment cnDetailedCardCommentIcon" onClick={() => setIsModalVisible(true)} />
             </div>
             <div className='cnDetailedCardLikes'>
                 {`Оценили ${likes} человек`}
@@ -53,9 +56,22 @@ const DetailedCard = ({ mutateLoading, authorizedUserId, id, userName, avatarUrl
                 {renderComments()}
             </div>
             <div className='cnDetailedCardTextAreaWrapper'>
-                <textarea value={comment} onChange={(e) => setComment(e.target.value)} className='cnDetailedCardTextArea' placeholder='Введите ваш комментарий...' />
+                <TextArea value={comment} onChange={(e) => setComment(e.target.value)} />
                 <Button disabled={mutateLoading} className='cnDetailedCardSendButton' onClick={handleSendCommentClick}>Отправить</Button>
             </div>
+            <PhotoModal
+                authorizedUserId={authorizedUserId}
+                onLikeClick={onLikeClick}
+                isLikedByYou={isLikedByYou}
+                mutateLoading={mutateLoading} id={id}
+                onCommentSendClick={onCommentSendClick}
+                isOpen={isModalVisible}
+                onClose={() => setIsModalVisible(false)}
+                userName={userName}
+                avatarUrl={avatarUrl}
+                userId={userId}
+                imgurl={imgurl}
+                comments={comments} />
         </div>
     )
 }

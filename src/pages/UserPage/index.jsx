@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import Card from '../../components/Card';
 import Layout from '../../components/Layout'
 import UserBio from '../../components/UserBio';
-import { getPostsByUserThunk, toggleLikeOnPostThunk } from '../../redux/actions/postsByUser';
+import { getPostsByUserThunk, sendCommentCardThunk, toggleLikeOnPostThunk } from '../../redux/actions/postsByUser';
 import { getUserThunk } from '../../redux/actions/users';
 import './style.css'
 
@@ -18,11 +18,10 @@ const UserPage = () => {
 	const isUserLoading = useSelector(state => state.users.isUserLoading);
 	const params = useParams(); // получить window.location
 	const dispatch = useDispatch();
+	const mutateLoading = useSelector(state => state.photos.isMutateLoading);
 
 	const [postsForRender, setPostsForRender] = useState([]);
 	const [page, setPage] = useState(0);
-
-	console.log(user, 'user');
 
 	useEffect(() => {
 		const newPosts = [...posts];
@@ -31,18 +30,19 @@ const UserPage = () => {
 		}
 	}, [posts]);
 
-	console.log(params.id, 'params.id');
-	console.log(user.id, 'user.id');
-
 	useEffect(() => {
 		dispatch(getPostsByUserThunk(params.id)); //id того, к кому мы зашли на страницу
 		dispatch(getUserThunk(params.id));
-		
+
 	}, [params.id, dispatch]);
 
 	const onLikeClick = function (authorizedUserId, photoId) {
 		dispatch(toggleLikeOnPostThunk(authorizedUserId, photoId, params.id));
 	};
+
+	const onCommentSendClick = function (photoId, comment) {
+		dispatch(sendCommentCardThunk(authorizedUser.nickname, photoId, user.id, comment))
+	}
 
 	const nextHandler = function () {
 		const newPosts = [...posts];
@@ -50,7 +50,7 @@ const UserPage = () => {
 
 		setPostsForRender([...postsForRender, ...newPosts.splice(offset, offset + 12)]);
 		setPage(page + 1);
-	};	
+	};
 
 	return (
 		<Layout userName={authorizedUser.nickname} userId={authorizedUser.id} avatarUrl={authorizedUser.avatarUrl}>
@@ -59,7 +59,22 @@ const UserPage = () => {
 				<div className='cnUserPageRootContent'>
 					{postsForRender.length ? <InfiniteScroll className='cnUserPageScroll' dataLength={postsForRender.length} next={nextHandler} hasMore={postsForRender.length < posts.length} loader={<div className='cnMainLoaderContainer'> <Bars color="#000BFF" height={25} width={25} /> </div>} endMessage={<p className='cnMainLoaderContainer'>that is all!</p>}>
 						{postsForRender.map(post => {
-							return <Card key={params.id} imgUrl={post.imgUrl} className='cnUserPageCard' likes={post.likes.length} comments={post.comments.length} isLikedByYou={post.likes.includes(authorizedUser.id)} onLikeClick={() => onLikeClick(authorizedUser.id, post.id)} />
+							return <Card
+								onCommentSendClick={(comment) => onCommentSendClick(post.id, comment)}
+								userName={user.nickname}
+								avatarUrl={user.avatarUrl}
+								mutateLoading={mutateLoading}
+								authorizedUserId={authorizedUser.id}
+								commentsForRender={post.comments}
+								id={post.id}
+								key={params.id}
+								imgUrl={post.imgUrl}
+								className='cnUserPageCard'
+								likes={post.likes.length}
+								comments={post.comments.length}
+								isLikedByYou={post.likes.includes(authorizedUser.id)}
+								onLikeClick={() => onLikeClick(authorizedUser.id, post.id)}
+							/>
 						})}
 					</InfiniteScroll> : <p>The user has no posts!</p>}
 				</div>

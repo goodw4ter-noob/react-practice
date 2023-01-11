@@ -11,7 +11,13 @@ export const getUpdatedPhoto = function (photos, photoId, data) {
     return newPhotos;
 }
 
+export const getUserPagePostData = function (posts, postId) {
+    const newPosts = [...posts];
+    const newPostIndex = newPosts.findIndex(post => post.id === postId);
+    const postForEdit = newPosts[newPostIndex];
 
-// const arr = [1, 2, 3, 4, 5, 6, 7]
-
-// console.log(arr.splice(1, 6));
+    return {
+        newPosts,
+        postForEdit,
+    };
+}

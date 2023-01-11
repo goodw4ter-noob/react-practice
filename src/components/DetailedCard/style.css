@@ -37,16 +37,6 @@
     padding: 0 10px 10px 10px;
 }
 
-.cnDetailedCardTextArea {
-    border: none;
-    background-color: #fafafa;
-    padding: 10px;
-    outline: none;
-    resize: none;
-    width: 85%;
-    box-sizing: border-box;
-}
-
 .cnDetailedCardLikeIcon {
     margin-right: 10px;
     cursor: pointer;

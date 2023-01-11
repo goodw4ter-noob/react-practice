@@ -1,0 +1,9 @@
+.cnRoot {
+    border: none;
+    background-color: #fafafa;
+    padding: 10px;
+    outline: none;
+    resize: none;
+    width: 85%;
+    box-sizing: border-box;
+}

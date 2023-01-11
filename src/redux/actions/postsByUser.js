@@ -1,4 +1,6 @@
 import { api } from "../../api";
+import { getUserPagePostData } from "../../utils";
+import { mutatePhotoFailed, mutatePhotoStarted, mutatePhotoSuccess } from "../actionCreators/photos";
 import { getPostsFailed, getPostsStarted, getPostsSuccess } from "../actionCreators/postsByUser"
 
 export const getPostsByUserThunk = function (userId) {
@@ -20,10 +22,7 @@ export const toggleLikeOnPostThunk = function (userId, postId, postAuthorId) {
     return async function(dispatch, getState) {
         try {
             const posts = getState().postsByUser.posts;
-            console.log(posts, 'posts');
-            const newPosts = [...posts];
-            const newPostIndex = newPosts.findIndex(post => post.id === postId);
-            const postForEdit = newPosts[newPostIndex];
+            const { postForEdit, newPosts } = getUserPagePostData(posts, postId);
 
             if (postForEdit.likes.includes(userId)) {
                 postForEdit.likes = postForEdit.likes.filter(like => like!== userId);
@@ -31,7 +30,7 @@ export const toggleLikeOnPostThunk = function (userId, postId, postAuthorId) {
                 postForEdit.likes.push(userId);
             }
 
-            await api.posts.mutatePostsAJAX({
+            const response = await api.posts.mutatePostsAJAX({
                 url: `/${postAuthorId}`,
                 data: {
                     id: postAuthorId,
@@ -39,9 +38,35 @@ export const toggleLikeOnPostThunk = function (userId, postId, postAuthorId) {
                 }
             })
 
-            dispatch(getPostsSuccess(newPosts));
+            dispatch(getPostsSuccess([...response.data.posts]));
         } catch (error) {
             console.log(error);
+        }
+    }
+}
+
+export const sendCommentCardThunk = function (authorizedUserNickname, postId, postAuthorId, text) {
+    return async function (dispatch, getState) {
+        try {
+            dispatch(mutatePhotoStarted());
+            const posts = getState().postsByUser.posts;
+            
+            const { postForEdit, newPosts } = getUserPagePostData(posts, postId);
+
+            postForEdit.comments.push({ nickname: authorizedUserNickname, text, });
+
+            const response = await api.posts.mutatePostsAJAX({
+                url: `/${postAuthorId}`,
+                data: {
+                    id: postAuthorId,
+                    posts: newPosts,
+                }
+            })
+
+            dispatch(getPostsSuccess([...response.data.posts]));
+            dispatch(mutatePhotoSuccess());
+        } catch (error) {
+            dispatch(mutatePhotoFailed(error));
         }
     }
 }
