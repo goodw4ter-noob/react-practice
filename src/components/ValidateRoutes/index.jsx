@@ -37,7 +37,7 @@ const ValidateRoutes = () => {
     return (
         <BrowserRouter>
             <Routes>
-                {isAuthorized ? authorizedRoutes.map(route => <Route path={route.path} key={route.path} element={route.element} exact={route.exact} />) : <Route path='/' element={<NoAccessPage />} exact />}
+                {isAuthorized ? authorizedRoutes.map(route => <Route path={route.path} key={route.path} element={route.element} exact={route.exact} />) : <Route path='*' element={<NoAccessPage />} exact />}
             </Routes>
         </BrowserRouter>
     )

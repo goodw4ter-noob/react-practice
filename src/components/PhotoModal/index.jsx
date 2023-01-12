@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react'
 import ReactModal from 'react-modal'
 import Button from '../Button';
 import Comment from '../Comment';
+import ImageWithLoader from '../ImageWithLoader';
 import TextArea from '../TextArea';
 import UserBadge from '../UserBadge'
 import './style.css';
 
-const PhotoModal = ({ commentValue, setCommentValue, authorizedUserId, onLikeClick, isLikedByYou, mutateLoading, id ,onCommentSendClick, isOpen, onClose, imgurl, userName, avatarUrl, userId, comments }) => {
+const PhotoModal = ({ commentValue, setCommentValue, authorizedUserId, onLikeClick, isLikedByYou, mutateLoading, id, onCommentSendClick, isOpen, onClose, imgurl, userName, avatarUrl, userId, comments }) => {
 
     useEffect(() => {
         const body = document.querySelector('body');
@@ -36,7 +37,8 @@ const PhotoModal = ({ commentValue, setCommentValue, authorizedUserId, onLikeCli
         >
             <div className="cnModalRoot">
                 <div className="cnModalImgWrapper">
-                    <img src={imgurl} alt={imgurl} className="cnModalImg" />
+                    <ImageWithLoader src={imgurl} alt={imgurl} className="cnModalImg" />
+                    {/* <img src={imgurl} alt={imgurl} className="cnModalImg" /> */}
                 </div>
                 <div className="cnCModalCommentsBlock">
                     <div>

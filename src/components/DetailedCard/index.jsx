@@ -8,6 +8,7 @@ import { nanoid } from 'nanoid';
 import Button from '../Button';
 import PhotoModal from '../PhotoModal';
 import TextArea from '../TextArea';
+import ImageWithLoader from '../ImageWithLoader';
 
 const DetailedCard = ({ mutateLoading, authorizedUserId, id, userName, avatarUrl, userId, imgurl, likes, isLikedByYou, comments, className, onLikeClick, onCommentSendClick }) => {
     const [isCommentsShown, setIsCommentsShown] = useState(false);
@@ -42,8 +43,10 @@ const DetailedCard = ({ mutateLoading, authorizedUserId, id, userName, avatarUrl
             <div className='cnDetailedCardHeader'>
                 <UserBadge userName={userName} avatarUrl={avatarUrl} userId={userId} />
             </div>
-            <div>
-                <img src={imgurl} alt="asd" className='cnDetailedCardImg' />
+            <div className='cnDetailedCardImgWrapper' >
+                <ImageWithLoader src={imgurl} alt="asd" className='cnDetailedCardImg'/>
+                {/* {!isImageLoaded && <div className='cnMainLoaderContainer'> <Bars color="#000BFF" height={25} width={25} /> </div>}
+                <img src={imgurl} alt="asd" className={`cnDetailedCardImg ${isImageLoaded && 'cnDetailedCardImgLoaded'}`} onLoad={() => setIsImageLoaded(true)} /> */}
             </div>
             <div className='cnDetailedCardButtons'>
                 <i onClick={() => onLikeClick(authorizedUserId, id)} className={`${isLikedByYou ? 'fas' : 'far'} fa-heart cnDetailedCardLikeIcon`}></i>

@@ -1,15 +1,17 @@
+import { toast } from 'react-toastify';
+
 export const getPhotoFromState = function (photos, photoId) {
     const photo = photos.find(post => post.id === photoId);
 
     return { ...photo };
-}
+};
 
 export const getUpdatedPhoto = function (photos, photoId, data) {
     const newPhotos = [...photos];
     const likedPhotoIndex = newPhotos.findIndex(photo => photo.id === photoId);
     newPhotos[likedPhotoIndex] = data;
     return newPhotos;
-}
+};
 
 export const getUserPagePostData = function (posts, postId) {
     const newPosts = [...posts];
@@ -20,4 +22,8 @@ export const getUserPagePostData = function (posts, postId) {
         newPosts,
         postForEdit,
     };
-}
+};
+
+export const handleError = function ({ response: { status, statusText } }) {
+    toast.error(`${status}: ${statusText}`);
+};

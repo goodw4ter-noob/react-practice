@@ -20,6 +20,10 @@
     width: 100%;
 }
 
+/* .cnDetailedCardImgLoaded {
+    opacity: 1;
+} */
+
 .cnDetailedCardButtons {
     display: flex;
     padding: 10px;
@@ -61,3 +65,4 @@
     bottom: 5px;
     right: 5px;
 }
+

@@ -13,7 +13,9 @@ import './style.css'
 const UserPage = () => {
 	const authorizedUser = useSelector(state => state.users.authorizedUser);
 	const user = useSelector(state => state.users.user);
+	const { isUserErrorProcessed} = useSelector(state => state.users);
 	const { posts } = useSelector(state => state.postsByUser);
+	const { isErrorProcessed } = useSelector(state => state.postsByUser);
 	const isPostsLoading = useSelector(state => state.postsByUser.isPostsloading);
 	const isUserLoading = useSelector(state => state.users.isUserLoading);
 	const params = useParams(); // получить window.location
@@ -42,7 +44,7 @@ const UserPage = () => {
 
 	const onCommentSendClick = function (photoId, comment) {
 		dispatch(sendCommentCardThunk(authorizedUser.nickname, photoId, user.id, comment))
-	}
+	};
 
 	const nextHandler = function () {
 		const newPosts = [...posts];
@@ -55,7 +57,19 @@ const UserPage = () => {
 	return (
 		<Layout userName={authorizedUser.nickname} userId={authorizedUser.id} avatarUrl={authorizedUser.avatarUrl}>
 			{isPostsLoading || isUserLoading ? <Bars color="#000BFF" height={25} width={25} /> : <div className='cnUserPageRoot'>
-				<UserBio isSubscribed={user.subscribers.includes(authorizedUser.id)} isMyPage={params.id == authorizedUser.id} avatarUrl={user.avatarUrl} userName={user.nickname} subscribed={user.subscribed.length} subscribers={user.subscribers.length} firstName={user.firstName} lastName={user.lastName} description={user.description} link={user.url} />
+				{!isUserErrorProcessed && <UserBio
+					isSubscribed={user.subscribers.includes(authorizedUser.id)}
+					isMyPage={params.id == authorizedUser.id}
+					avatarUrl={user.avatarUrl}
+					userName={user.nickname}
+					subscribed={user.subscribed.length}
+					subscribers={user.subscribers.length}
+					firstName={user.firstName}
+					lastName={user.lastName}
+					description={user.description}
+					link={user.url}
+				/>}
+
 				<div className='cnUserPageRootContent'>
 					{postsForRender.length ? <InfiniteScroll className='cnUserPageScroll' dataLength={postsForRender.length} next={nextHandler} hasMore={postsForRender.length < posts.length} loader={<div className='cnMainLoaderContainer'> <Bars color="#000BFF" height={25} width={25} /> </div>} endMessage={<p className='cnMainLoaderContainer'>that is all!</p>}>
 						{postsForRender.map(post => {
@@ -76,11 +90,11 @@ const UserPage = () => {
 								onLikeClick={() => onLikeClick(authorizedUser.id, post.id)}
 							/>
 						})}
-					</InfiniteScroll> : <p>The user has no posts!</p>}
+					</InfiniteScroll> : !isErrorProcessed && <p>The user has no posts!</p>}
 				</div>
 			</div>}
 		</Layout>
 	)
-}
+};
 
 export default UserPage

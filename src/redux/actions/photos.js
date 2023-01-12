@@ -1,6 +1,6 @@
 
 import { api } from "../../api"
-import { getPhotoFromState, getUpdatedPhoto } from "../../utils";
+import { getPhotoFromState, getUpdatedPhoto, handleError } from "../../utils";
 import { getPhotosFailed, getPhotosStarted, getPhotosSuccess, mutatePhotoFailed, mutatePhotoStarted, mutatePhotoSuccess, setPhotosTotal } from "../actionCreators/photos"
 
 //пишем thunk - функция, которая возвращает асинхронную функцию с dispatch внутри
@@ -25,7 +25,6 @@ export const getPhotosThunk = function (page = 1) { //ЭТО И ЕСТЬ THUNK!!
                 dispatch(getPhotosSuccess([...store.photos.photos, ...response.data]));
             }
 
-
         } catch (error) {
             dispatch(getPhotosFailed(error));
         }
@@ -35,20 +34,18 @@ export const getPhotosThunk = function (page = 1) { //ЭТО И ЕСТЬ THUNK!!
 export const toggleLikeThunk = function (authorizedUserId, photoId) {
     return async function (dispatch, getState) {
         try {
-            // dispatch(mutatePhotoStarted());
+
             const state = getState();
 
-            console.log(photoId, 'photoId', authorizedUserId, 'authorizedUserId');
-            // const newPhoto = getPhotoFromState(state.photos.photos, photoId);
             const newPhoto = getPhotoFromState(state.photos.photos, photoId);
-            console.log(newPhoto.likes, 'newPhoto.likes');
+
             if (newPhoto.likes.includes(authorizedUserId)) {
                 newPhoto.likes = newPhoto.likes.filter(like => like !== authorizedUserId);
-                console.log(newPhoto.likes, 'newPhoto.likes');
+
             } else {
                 newPhoto.likes.push(authorizedUserId);
             }
-            console.log(newPhoto.likes, 'newPhoto.likes');
+
             const response = await api.photos.mutatePhotoAJAX({
                 data: newPhoto,
                 url: newPhoto.id,
