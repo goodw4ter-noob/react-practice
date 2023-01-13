@@ -7,17 +7,18 @@ import Card from '../../components/Card';
 import Layout from '../../components/Layout'
 import UserBio from '../../components/UserBio';
 import { getPostsByUserThunk, sendCommentCardThunk, toggleLikeOnPostThunk } from '../../redux/actions/postsByUser';
-import { getUserThunk } from '../../redux/actions/users';
+import { getUserThunk, mutateUserThunk } from '../../redux/actions/users';
 import './style.css'
 
 const UserPage = () => {
 	const authorizedUser = useSelector(state => state.users.authorizedUser);
 	const user = useSelector(state => state.users.user);
-	const { isUserErrorProcessed} = useSelector(state => state.users);
+	const { isUserErrorProcessed } = useSelector(state => state.users);
 	const { posts } = useSelector(state => state.postsByUser);
 	const { isErrorProcessed } = useSelector(state => state.postsByUser);
 	const isPostsLoading = useSelector(state => state.postsByUser.isPostsloading);
 	const isUserLoading = useSelector(state => state.users.isUserLoading);
+	const isUserMutateLoading = useSelector(state => state.users.isMutateLoading);
 	const params = useParams(); // получить window.location
 	const dispatch = useDispatch();
 	const mutateLoading = useSelector(state => state.photos.isMutateLoading);
@@ -54,6 +55,10 @@ const UserPage = () => {
 		setPage(page + 1);
 	};
 
+	const onEdit = async function (data) {
+		await dispatch(mutateUserThunk(data, user.id))
+	}
+
 	return (
 		<Layout userName={authorizedUser.nickname} userId={authorizedUser.id} avatarUrl={authorizedUser.avatarUrl}>
 			{isPostsLoading || isUserLoading ? <Bars color="#000BFF" height={25} width={25} /> : <div className='cnUserPageRoot'>
@@ -68,6 +73,8 @@ const UserPage = () => {
 					lastName={user.lastName}
 					description={user.description}
 					link={user.url}
+					onEdit={onEdit}
+					formLoading={isUserMutateLoading}
 				/>}
 
 				<div className='cnUserPageRootContent'>

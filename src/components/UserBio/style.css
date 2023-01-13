@@ -22,6 +22,17 @@
     margin-bottom: 5px;
 }
 
+.cnUserBioButtonRow {
+    display: flex;
+    margin-left: 5px;
+    align-items: flex-start;
+}
+
+.cnUserBioEditButton {
+    margin-top: 2px;
+    margin-left: 10px;
+}
+
 .cnUserBioNickName {
     font-weight: 600;
     font-size: 25px;

@@ -6,6 +6,9 @@ export const GET_AUTHORIZED_USER_STARTED = 'GET_AUTHORIZED_USER_STARTED';
 export const GET_AUTHORIZED_USER_SUCCESS = 'GET_AUTHORIZED_USER_SUCCESS';
 export const GET_AUTHORIZED_USER_FAILED = 'GET_AUTHORIZED_USER_FAILED';
 
+export const MUTATE_USER_STARTED = 'MUTATE_USER_STARTED';
+export const MUTATE_USER_SUCCESS = 'MUTATE_USER_SUCCESS';
+export const MUTATE_USER_FAILED = 'MUTATE_USER_FAILED';
 
 
 export const getUserStarted = function () {
@@ -47,3 +50,22 @@ export const getAuthorizedUserFailed = function (error) {
         payload: error,
     }
 }
+
+export const mutateUserStarted = function () {
+    return {
+        type: MUTATE_USER_STARTED,
+    };
+};
+
+export const mutateUserSuccess = function () {
+    return {
+        type: MUTATE_USER_SUCCESS,
+    };
+};
+
+export const mutateUserFailed = function (error) {
+    return {
+        type: MUTATE_USER_FAILED,
+        payload: error,
+    };
+};

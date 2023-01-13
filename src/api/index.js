@@ -1,10 +1,10 @@
 import { getPhotosAJAX, mutatePhotoAJAX } from "./photos"
 import { getPostsAJAX, mutatePostsAJAX } from "./postsByUser"
-import { getUserAJAX } from "./users"
+import { getUserAJAX, mutateUserAJAX } from "./users"
 
 
 export const api = {
     photos: { getPhotosAJAX, mutatePhotoAJAX },
-    users: { getUserAJAX },
+    users: { getUserAJAX, mutateUserAJAX },
     posts: { getPostsAJAX, mutatePostsAJAX },
 }

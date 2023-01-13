@@ -10,3 +10,13 @@ export const getUserAJAX = function(userId, config) {
         ...config
     });
 };
+
+export const mutateUserAJAX = function (config) {
+    config.url = `${URL}/${config.url}`;
+    
+    console.log(config.url);
+    return makeRequest({
+        method: 'PUT',
+        ...config,
+    });
+};
